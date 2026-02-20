@@ -1,0 +1,78 @@
+---
+const models = [
+  {
+    model: "/models/Phone1.glb",
+    name: "iPhone 14",
+    code: "iphone14",
+  },
+  {
+    model: "/models/Phone2.glb",
+    name: "iPhone 15",
+    code: "iphone15",
+  },
+  {
+    model: "/models/Phone3.glb",
+    name: "iPhone 16",
+    code: "iphone16",
+  },
+  {
+    model: "/models/Phone4.glb",
+    name: "iPhone 17",
+    code: "iphone17",
+  },
+];
+---
+
+<div
+  id="viewer"
+  data-models={JSON.stringify(models)}
+  class="w-full max-w-md md:max-w-xl h-88 md:h-128 bg-secondary rounded-2xl relative"
+>
+  <!-- Nombre dinámico -->
+  <p
+    id="modelName"
+    class="absolute top-4 left-5 text-text-feature text-2xl md:text-5xl font-bold"
+  >
+    
+  </p>
+
+  <!-- Botón ver más -->
+  <a
+    id="viewMore"
+    href="/catalogo/iphone14"
+    class="absolute bottom-2 right-2 text-sm md:text-base bg-primary text-text-feature px-4 py-2 rounded-xl"
+  >
+    Ver más
+  </a>
+
+  <!-- Botones navegación -->
+  <button id="prevBtn" class="bg-gost w-7 md:w-15 h-7 md:h-15 p-3 rounded-full absolute left-4 top-1/2 flex items-center justify-center">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 absolute text-text-feature"> <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /> </svg>
+  </button>
+
+  <button id="nextBtn" class="bg-gost w-7 md:w-15 h-7 md:h-15 p-3 rounded-full absolute right-4 top-1/2 flex items-center justify-center">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 absolute text-text-feature"> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /> </svg>
+  </button>
+</div>
+
+<script type="module">
+import { initTest3D } from "/src/scripts/test3d.js";
+
+const container = document.getElementById("viewer");
+const models = JSON.parse(container.dataset.models);
+
+const nameElement = document.getElementById("modelName");
+const viewMoreBtn = document.getElementById("viewMore");
+
+let currentIndex = 0;
+
+// función para actualizar UI
+function updateUI(index) {
+  nameElement.textContent = models[index].name;
+  viewMoreBtn.href = `/catalogo/${models[index].code}`;
+}
+
+updateUI(currentIndex);
+
+initTest3D(container, models, updateUI);
+</script>

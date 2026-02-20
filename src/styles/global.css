@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease,
+      border-color 0.4s ease,
+      fill 0.4s ease,
+      stroke 0.4s ease;
+  }
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-feature: var(--text-feature);
+  --color-gost: var(--gost);
+  --color-gost-hover: var(--gost-hover);
+}
+
+:root {
+  --primary: #FFFFFF; 
+  --secondary: #d4e6f7;
+  --text: #05121e;
+  --text-secondary: #7C7C7C;
+  --text-feature: #1F68AD;
+  --gradient-main: linear-gradient(180deg, #a8cdf0, #e9f3fb);
+  --gost: #F5F5F5;
+  --gost-hover: #EEEEEE;
+}
+
+.theme-dark {
+  --primary: #05121e;
+  --secondary: #0f3457;
+  --text: #FFFFFF;
+  --text-secondary: #919191;
+  --text-feature: #529BE0;
+  --gradient-main: linear-gradient(180deg, #0f3457, #081a2b);
+  --gost: #262626;
+  --gost-hover: #404040;
+}
