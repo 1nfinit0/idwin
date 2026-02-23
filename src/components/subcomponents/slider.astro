@@ -1,0 +1,138 @@
+---
+import items from "@data/rawCarousel.json";
+---
+
+<div class="w-full max-w-sm flex justify-center relative border-rounded-lg bg-secondary rounded-2xl p-4">
+  <button
+    id="prevBtn"
+    class="bg-gost w-7 md:w-10 h-7 md:h-10 p-3 rounded-full absolute left-4 top-1/2 flex items-center justify-center z-10"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-5 h-5 absolute text-text-feature"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"
+      ></path>
+    </svg>
+  </button>
+
+  <div class="w-full overflow-hidden">
+    <div
+      id="carousel"
+      class="flex transition-transform duration-500 ease-in-out"
+    >
+      <!-- <3 -->
+
+      {
+        items.map((item) => (
+          <div class=" w-full h-100 shrink-0 flex items-center justify-center snap-center relative">
+            {/* <div class="w-full h-64 bg-secondary flex items-center justify-center text-2xl font-bold text-text">
+              {item.nombre}
+            </div> */}
+
+              <p class="absolute top-2 left-2 text-text-feature text-4xl font-bold z-20">{item.nombre}</p>
+
+            <model-viewer
+              src={item.src}
+              environment-image="/hdri/ferndale_studio_04_1k.hdr"
+              shadow-intensity="1"
+              camera-controls
+              auto-rotate
+              class="w-full h-full"
+              camera-orbit="180deg 90deg m"
+            ></model-viewer>
+
+            <a href={item.alttext} class="absolute bottom-2 right-2 rounded-2xl bg-primary text-text px-4 py-2 hover:bg-primary/50"> Ver más</a>
+
+          </div>
+        ))
+      }
+
+      <!-- <3 -->
+    </div>
+  </div>
+  <button
+    id="nextBtn"
+    class="bg-gost w-7 md:w-10 h-7 md:h-10 p-3 rounded-full absolute right-4 top-1/2 flex items-center justify-center z-10"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="w-5 h-5 absolute text-text-feature"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"
+      ></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("carousel");
+    if (!slider) return;
+
+    let slides = Array.from(slider.children);
+    const total = slides.length;
+    if (total === 0) return;
+
+    const firstClone = slides[0].cloneNode(true);
+    const lastClone = slides[total - 1].cloneNode(true);
+
+    slider.appendChild(firstClone);
+    slider.insertBefore(lastClone, slides[0]);
+
+    slides = Array.from(slider.children);
+
+    let index = 1;
+    let isAnimating = false;
+
+    slider.style.transform = `translateX(-${index * 100}%)`;
+
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+
+    function moveTo(newIndex: number) {
+      if (isAnimating) return;
+
+      isAnimating = true;
+      index = newIndex;
+
+      if (!slider) return;
+      slider.style.transition = "transform 0.5s ease-in-out";
+      slider.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    nextBtn?.addEventListener("click", () => {
+      moveTo(index + 1);
+    });
+
+    prevBtn?.addEventListener("click", () => {
+      moveTo(index - 1);
+    });
+
+    slider.addEventListener("transitionend", () => {
+      // Si llegó al clon final
+      if (index === slides.length - 1) {
+        slider.style.transition = "none";
+        index = 1;
+        slider.style.transform = `translateX(-${index * 100}%)`;
+      }
+
+      // Si llegó al clon inicial
+      if (index === 0) {
+        slider.style.transition = "none";
+        index = slides.length - 2;
+        slider.style.transform = `translateX(-${index * 100}%)`;
+      }
+
+      isAnimating = false; // 🔓 desbloqueamos
+    });
+  });
+</script>

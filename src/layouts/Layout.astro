@@ -11,6 +11,7 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" is:inline></script>
   </head>
   <body>
     <slot />
@@ -25,5 +26,6 @@ const { title } = Astro.props;
       document.documentElement.className = theme;
       localStorage.setItem("theme", theme);
     };
+    
   </script>
 </html>

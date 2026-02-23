@@ -6,27 +6,37 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
 ---
 
 <div 
-  class="w-full p-2 md:p-4 bg-primary relative flex justify-center"
+  class="w-full p-4 bg-primary sticky top-0 z-30 flex justify-center"
   data-productos={JSON.stringify(productosPublicos)}
   id="searchWrapper"
 >
-  <input
-    type="text"
-    id="searchInput"
-    placeholder="Buscar iPhone (ej: 14 pro 256 silver)"
-    class="w-full max-w-3xl text-text p-2 md:p-6 rounded-2xl border border-gost-hover
-           focus:outline-none focus:ring-2 focus:ring-secondary
-           transition shadow-sm"
-  />
-  <button
+  <div class="w-full max-w-2xl relative">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Buscar iPhone (ej: 14 pro 256 silver)"
+      class="w-full text-text p-2 md:p-4 rounded-2xl border border-gost-hover
+             focus:outline-none focus:ring-2 focus:ring-secondary
+             transition shadow-sm"
+    />
+
+    <button
       id="clearSearch"
-      class="absolute right-5 top-1/2 -translate-y-1/2 text-text/50 hover:text-gost-hover transition
-             focus:outline-none hidden text-xl font-medium"
+      class="absolute right-5 top-1/2 -translate-y-1/2 text-text/50 
+             hover:text-gost-hover transition focus:outline-none hidden 
+             text-xl font-medium"
       aria-label="Limpiar búsqueda"
     >
       x
     </button>
-  <div id="results" class="absolute w-dvw max-w-3xl px-2 mt-15 z-20"></div>
+
+    <div 
+      id="results" 
+      class="absolute left-0 top-full w-full mt-2 z-40"
+    ></div>
+
+  </div>
 </div>
 
 <script>
@@ -129,4 +139,21 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
   if (clearButton) {
     clearButton.addEventListener('click', clearSearch);
   }
+
+document.addEventListener("click", (event) => {
+  const target = event.target as Node | null;
+
+  if (!wrapper || !results) return;
+
+  // Si el click NO fue dentro del searchWrapper
+  if (!wrapper.contains(target)) {
+    results.innerHTML = "";
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && results) {
+    results.innerHTML = "";
+  }
+});
 </script>

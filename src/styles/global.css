@@ -22,17 +22,7 @@
 }
 
 :root {
-  --primary: #FFFFFF; 
-  --secondary: #d4e6f7;
-  --text: #05121e;
-  --text-secondary: #7C7C7C;
-  --text-feature: #1F68AD;
-  --gradient-main: linear-gradient(180deg, #a8cdf0, #e9f3fb);
-  --gost: #F5F5F5;
-  --gost-hover: #EEEEEE;
-}
 
-.theme-dark {
   --primary: #05121e;
   --secondary: #0f3457;
   --text: #FFFFFF;
@@ -41,4 +31,19 @@
   --gradient-main: linear-gradient(180deg, #0f3457, #081a2b);
   --gost: #262626;
   --gost-hover: #404040;
+
+  
+}
+
+.theme-dark {
+  
+  --primary: #FFFFFF; 
+  --secondary: #d4e6f7;
+  --text: #05121e;
+  --text-secondary: #7C7C7C;
+  --text-feature: #1F68AD;
+  --gradient-main: linear-gradient(180deg, #a8cdf0, #e9f3fb);
+  --gost: #F5F5F5;
+  --gost-hover: #EEEEEE;
+
 }

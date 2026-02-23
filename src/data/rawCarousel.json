@@ -1,0 +1,26 @@
+[
+  {
+    "nombre": "Iphone 14",
+    "descripcion": "Imagen del logo de IDwin",
+    "src": "/models/Phone1.glb",
+    "alttext": "iphone14"
+  },
+  {
+    "nombre": "Iphone 15",
+    "descripcion": "Video de ejemplo",
+    "src": "/models/Phone2.glb",
+    "alttext": "iphone15"
+  },
+  {
+    "nombre": "Iphone 16",
+    "descripcion": "Contenido de texto",
+    "src": "/models/Phone3.glb",
+    "alttext": "iphone16"
+  },
+  {
+    "nombre": "Iphone 17",
+    "descripcion": "Modelo GLB de ejemplo",
+    "src": "/models/Phone4.glb",
+    "alttext": "iphone17"
+  }
+]
