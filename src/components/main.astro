@@ -1,6 +1,7 @@
 ---
 import Hero from '@components/subcomponents/hero.astro';
 import Slider from '@components/subcomponents/slider.astro';
+import CatalogCategory from '@components/subcomponents/CatalogCategory.astro';
 ---
 <main class="flex flex-col items-center bg-primary">
   <div class="w-full bg-(image:--gradient-main)">
@@ -19,7 +20,7 @@ import Slider from '@components/subcomponents/slider.astro';
     Lo más pedido 🔥
     </p>
   </div>
-  <div class="w-full px-4 flex items-center justify-center">
-    <div class="h-px w-full bg-gost-hover max-w-4xl"></div>
+  <div class="w-full max-w-4xp px-4 flex items-center justify-center">
+    <CatalogCategory />
   </div>
 </main>

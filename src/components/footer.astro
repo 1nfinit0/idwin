@@ -1,6 +1,89 @@
 ---
 
 ---
-<footer>
-  <h2>Footer</h2>
+<footer class="bg-neutral-950 text-neutral-300 pt-20 pb-10">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <!-- Grid principal -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+
+      <!-- Logo + descripción -->
+      <div class="lg:col-span-2">
+        <img src="/idwin_logo.png" alt="iDwin Logo" class="h-14 mb-6" />
+        <p class="text-neutral-400 leading-relaxed mb-6">
+          iDwin es una plataforma enfocada en tecnología, innovación y desarrollo digital.
+          Creamos experiencias modernas con diseño limpio y alto rendimiento.
+        </p>
+
+        <!-- Redes -->
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-white transition">Twitter</a>
+          <a href="#" class="hover:text-white transition">GitHub</a>
+          <a href="#" class="hover:text-white transition">LinkedIn</a>
+        </div>
+      </div>
+
+      <!-- Sección 1 -->
+      <div>
+        <h3 class="text-white font-semibold mb-6">Producto</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="hover:text-white transition">Características</a></li>
+          <li><a href="#" class="hover:text-white transition">Precios</a></li>
+          <li><a href="#" class="hover:text-white transition">Actualizaciones</a></li>
+          <li><a href="#" class="hover:text-white transition">Roadmap</a></li>
+        </ul>
+      </div>
+
+      <!-- Sección 2 -->
+      <div>
+        <h3 class="text-white font-semibold mb-6">Recursos</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="hover:text-white transition">Blog</a></li>
+          <li><a href="#" class="hover:text-white transition">Documentación</a></li>
+          <li><a href="#" class="hover:text-white transition">Guías</a></li>
+          <li><a href="#" class="hover:text-white transition">Soporte</a></li>
+        </ul>
+      </div>
+
+      <!-- Sección 3 -->
+      <div>
+        <h3 class="text-white font-semibold mb-6">Empresa</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="hover:text-white transition">Sobre nosotros</a></li>
+          <li><a href="#" class="hover:text-white transition">Carreras</a></li>
+          <li><a href="#" class="hover:text-white transition">Contacto</a></li>
+          <li><a href="#" class="hover:text-white transition">Prensa</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Newsletter -->
+    <div class="border-t border-neutral-800 mt-16 pt-12">
+      <div class="max-w-xl">
+        <h3 class="text-white font-semibold mb-4">Suscríbete a nuestro newsletter</h3>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <input 
+            type="email"
+            placeholder="Tu correo electrónico"
+            class="flex-1 px-4 py-3 rounded-xl bg-neutral-900 border border-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-600"
+          />
+          <button class="px-6 py-3 bg-white text-black rounded-xl font-medium hover:bg-neutral-200 transition">
+            Suscribirme
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="border-t border-neutral-800 mt-12 pt-6 text-sm text-neutral-500 flex flex-col md:flex-row justify-between gap-4">
+      <p>© {new Date().getFullYear()} iDwin. Todos los derechos reservados.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white transition">Términos</a>
+        <a href="#" class="hover:text-white transition">Privacidad</a>
+        <a href="#" class="hover:text-white transition">Cookies</a>
+      </div>
+    </div>
+
+  </div>
 </footer>
