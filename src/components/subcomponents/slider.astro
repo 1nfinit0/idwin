@@ -2,7 +2,7 @@
 import items from "@data/rawCarousel.json";
 ---
 
-<div class="w-full max-w-sm flex justify-center relative border-rounded-lg bg-secondary rounded-2xl p-4">
+<div class="w-full max-w-md flex justify-center relative border-rounded-lg bg-secondary rounded-2xl p-4">
   <button
     id="prevBtn"
     class="bg-gost w-7 md:w-10 h-7 md:h-10 p-3 rounded-full absolute left-4 top-1/2 flex items-center justify-center z-10"
@@ -34,7 +34,7 @@ import items from "@data/rawCarousel.json";
               {item.nombre}
             </div> */}
 
-              <p class="absolute top-2 left-2 text-text-feature text-4xl font-bold z-20">{item.nombre}</p>
+              <p class="absolute top-2 left-2 text-text-feature text-4xl font-bold z-20 text-shadow-md text-shadow-white/50">{item.nombre}</p>
 
             <model-viewer
               src={item.src}

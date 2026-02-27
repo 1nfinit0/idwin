@@ -2,16 +2,15 @@
 import productos from "@data/rawData.json";
 
 // Solo productos públicos
-const productosPublicos = productos.filter(p => p.estado === "Público");
+const productosPublicos = productos.filter((p) => p.publicar === "Público");
 ---
 
-<div 
+<div
   class="w-full p-4 bg-primary sticky top-0 z-30 flex justify-center"
   data-productos={JSON.stringify(productosPublicos)}
   id="searchWrapper"
 >
   <div class="w-full max-w-2xl relative">
-
     <input
       type="text"
       id="searchInput"
@@ -23,25 +22,23 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
 
     <button
       id="clearSearch"
-      class="absolute right-5 top-1/2 -translate-y-1/2 text-text/50 
-             hover:text-gost-hover transition focus:outline-none hidden 
+      class="absolute right-5 top-1/2 -translate-y-1/2 text-text/50
+             hover:text-gost-hover transition focus:outline-none hidden
              text-xl font-medium"
       aria-label="Limpiar búsqueda"
     >
       x
     </button>
 
-    <div 
-      id="results" 
-      class="absolute left-0 top-full w-full mt-2 z-40"
-    ></div>
-
+    <div id="results" class="absolute left-0 top-full w-full mt-2 z-40"></div>
   </div>
 </div>
 
 <script>
   const wrapper = document.getElementById("searchWrapper");
-  const productos = wrapper ? JSON.parse(wrapper.dataset.productos || "[]") : [];
+  const productos = wrapper
+    ? JSON.parse(wrapper.dataset.productos || "[]")
+    : [];
 
   const input = document.getElementById("searchInput");
   const clearButton = document.getElementById("clearSearch");
@@ -49,22 +46,23 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
 
   const MAX_RESULTS = 5;
 
-
   function normalize(text: any) {
-    return text
-      ?.toString()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") || "";
+    return (
+      text
+        ?.toString()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") || ""
+    );
   }
 
   // Función para mostrar/ocultar el botón de limpiar
   function toggleClearButton() {
     if (input && clearButton) {
       if ((input as HTMLInputElement).value.length > 0) {
-        clearButton.classList.remove('hidden');
+        clearButton.classList.remove("hidden");
       } else {
-        clearButton.classList.add('hidden');
+        clearButton.classList.add("hidden");
       }
     }
   }
@@ -72,8 +70,8 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
   // Limpiar el input
   function clearSearch() {
     if (input) {
-      (input as HTMLInputElement).value = '';
-      input.dispatchEvent(new Event('input'));
+      (input as HTMLInputElement).value = "";
+      input.dispatchEvent(new Event("input"));
       toggleClearButton();
       input.focus();
     }
@@ -81,9 +79,9 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
 
   if (input) {
     // Evento para mostrar/ocultar el botón mientras se escribe
-    input.addEventListener('input', (e) => {
+    input.addEventListener("input", (e) => {
       toggleClearButton();
-      
+
       const target = e.target as HTMLInputElement | null;
       const query = normalize(target ? target.value : "");
 
@@ -91,19 +89,31 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
       results.innerHTML = "";
       if (!query) return;
 
-      const filtrados = productos.filter((producto: { producto: any; categoria: any; modelo: any; color: any; almacenamiento: any; }) => {
-        const searchable = [
-          producto.producto,
-          producto.categoria,
-          producto.modelo,
-          producto.color,
-          producto.almacenamiento
-        ]
-          .map(normalize)
-          .join(" ");
+      const filtrados = productos
+        .filter(
+          (producto: {
+            version: any;
+            modelo: any;
+            capacidad: any;
+            id: any;
+          }) => {
+            const searchable = [
+              producto.version,
+              producto.modelo,
+              producto.capacidad,
+              producto.id,
+            ]
+              .map(normalize)
+              .join(" ");
 
-        return searchable.includes(query);
-      }).slice(0, MAX_RESULTS);
+            const palabras = query.split(" ").filter(Boolean);
+
+            return palabras.every((palabra: string) =>
+              searchable.includes(palabra),
+            );
+          },
+        )
+        .slice(0, MAX_RESULTS);
 
       if (filtrados.length === 0) {
         results.innerHTML =
@@ -111,25 +121,36 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
         return;
       }
 
-      filtrados.forEach((producto: { producto: any; almacenamiento: any; color: any; modelo: any; precio: any; }) => {
-        const div = document.createElement("div");
-        div.className =
-          "p-3 rounded-2xl bg-gost shadow hover:gost-hover transition my-2 cursor-pointer";
+      filtrados.forEach(
+        (producto: {
+          id: any;
+          version: any;
+          capacidad: any;
+          modelo: any;
+          color: any;
+          bateria: any;
+          estado: any;
+          precio: any;
+        }) => {
+          const div = document.createElement("div");
+          div.className =
+            "p-3 rounded-2xl bg-gost shadow hover:bg-gost-hover transition my-2 cursor-pointer";
 
-        div.innerHTML = `
+          div.innerHTML = `
           <div class="font-semibold text-lg text-text">
-            ${producto.producto}
+            ${"iPhone " + producto.version + " " + producto.modelo}
           </div>
           <div class="text-sm text-text-secondary mt-1">
-            ${producto.almacenamiento} • ${producto.color} • ${producto.modelo}
+            ${producto.capacidad} • ${producto.bateria} • ${producto.estado}
           </div>
           <div class="mt-2 font-bold text-text-feature">
             $${producto.precio}
           </div>
         `;
 
-        results.appendChild(div);
-      });
+          results.appendChild(div);
+        },
+      );
     });
 
     // Verificar estado inicial (por si hay valor precargado)
@@ -137,23 +158,23 @@ const productosPublicos = productos.filter(p => p.estado === "Público");
   }
 
   if (clearButton) {
-    clearButton.addEventListener('click', clearSearch);
+    clearButton.addEventListener("click", clearSearch);
   }
 
-document.addEventListener("click", (event) => {
-  const target = event.target as Node | null;
+  document.addEventListener("click", (event) => {
+    const target = event.target as Node | null;
 
-  if (!wrapper || !results) return;
+    if (!wrapper || !results) return;
 
-  // Si el click NO fue dentro del searchWrapper
-  if (!wrapper.contains(target)) {
-    results.innerHTML = "";
-  }
-});
+    // Si el click NO fue dentro del searchWrapper
+    if (!wrapper.contains(target)) {
+      results.innerHTML = "";
+    }
+  });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && results) {
-    results.innerHTML = "";
-  }
-});
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && results) {
+      results.innerHTML = "";
+    }
+  });
 </script>
