@@ -35,13 +35,16 @@
   </button>
 </div>
 <script is:inline>
-  function toggleTheme() {
+function toggleTheme() {
     const root = document.documentElement;
     const circle = document.getElementById("switch-circle");
     const iconLight = document.getElementById("icon-light");
     const iconDark = document.getElementById("icon-dark");
 
     const isDark = root.classList.toggle("theme-dark");
+
+    // Guardar preferencia
+    localStorage.setItem("theme", isDark ? "dark" : "light");
 
     if (isDark) {
       circle.classList.add("translate-x-7");
@@ -53,4 +56,18 @@
       iconDark.classList.add("opacity-0");
     }
   }
+    document.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme");
+    const root = document.documentElement;
+    const circle = document.getElementById("switch-circle");
+    const iconLight = document.getElementById("icon-light");
+    const iconDark = document.getElementById("icon-dark");
+
+    if (savedTheme === "dark") {
+      root.classList.add("theme-dark");
+      circle.classList.add("translate-x-7");
+      iconLight.classList.add("opacity-0");
+      iconDark.classList.remove("opacity-0");
+    }
+  });
 </script>
