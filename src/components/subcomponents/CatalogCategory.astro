@@ -15,7 +15,7 @@ const productsByCategory = categorias.reduce((acc, version) => {
    {categorias.map((categoria) => (
     <ul class="product-row w-full overflow-x-auto scroll-smooth mb-8">
       <li class="text-shadow-white text-2xl md:text-3xl font-light mx-5 mb-3 text-text ">{'iPhone ' + categoria}</li>
-      <div id={`row-${categoria}`} class="product-row w-full flex gap-8 mb-2">
+      <div id={`row-${categoria}`} class="product-row w-full flex gap-8 mb-2 items-center justify-center">
         
         {productsByCategory[categoria]
         .filter(item => item.publicar == 'Público')
@@ -63,12 +63,11 @@ const productsByCategory = categorias.reduce((acc, version) => {
     }
   }
 
-  window.addEventListener("DOMContentLoaded", () => {
-    categorias.forEach(cat => {
-      const safe = cat.replace(/\s+/g,'-');
-      const el = document.getElementById(`row-${safe}`);
-      if (el) shuffle(el);
-    });
+window.addEventListener("DOMContentLoaded", () => {
+  categorias.forEach(cat => {
+    const el = document.getElementById(`row-${cat}`);
+    if (el) shuffle(el);
   });
+});
 </script>
 
