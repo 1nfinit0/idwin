@@ -1,0 +1,154 @@
+---
+interface Props<T> {
+  items: T[];
+  filters: (keyof T)[];
+}
+
+const { items, filters } = Astro.props as Props<Record<string, any>>;
+---
+
+<div
+  class="filter-component w-full flex flex-col gap-4"
+  id="filterWrapper"
+  data-items={JSON.stringify(items)}
+  data-filters={JSON.stringify(filters)}
+>
+<div class="flex flex-col gap-6">
+  {filters.map((filterKey) => {
+    const values = [...new Set(items.map(item => item[filterKey]))];
+
+    return (
+      <div class="flex flex-col gap-2">
+        <h3 class="text-sm font-semibold capitalize">
+          {String(filterKey)}
+        </h3>
+
+        <div
+          class="flex gap-2 flex-wrap filter-group"
+          data-filter={String(filterKey)}
+        >
+          {values.map(value => (
+            <button
+              type="button"
+              class="filter-btn px-3 py-1 rounded border border-border bg-secondary text-text transition"
+              data-value={String(value)}
+            >
+              {String(value)}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+  <div class="results grid grid-cols-3 gap-4 text-text"></div>
+</div>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const category = Number(params.get("category"));
+
+  const indexList = [13, 13, 14, 15, 16, 17];
+  const versionDefault = indexList[category] || 13;
+
+  const wrapper = document.getElementById("filterWrapper");
+
+  const items = wrapper
+    ? JSON.parse(wrapper.dataset.items || "[]")
+    : [];
+
+  const filters = wrapper
+    ? JSON.parse(wrapper.dataset.filters || "[]")
+    : [];
+
+  const resultsDiv = wrapper?.querySelector(".results");
+  const groups = wrapper?.querySelectorAll(".filter-group");
+
+  function renderResults(filtered: any[]) {
+    if (!resultsDiv) return;
+
+    resultsDiv.innerHTML = "";
+
+    if (filtered.length === 0) {
+      resultsDiv.innerHTML = `
+        <div class="col-span-3 text-center py-6">
+          No existe el producto
+        </div>
+      `;
+      return;
+    }
+
+    filtered.forEach((item: { [x: string]: any; }) => {
+      const card = document.createElement("div");
+      card.className = "bg-primary p-4 rounded";
+
+      card.innerHTML = filters
+        .map((key: string | number) => `<p><strong>${key}:</strong> ${item[key]}</p>`)
+        .join("");
+
+      resultsDiv.appendChild(card);
+    });
+  }
+
+  function applyFilters() {
+    if (!groups) return;
+
+    const activeFilters: Record<string, string> = {};
+
+    groups.forEach(group => {
+      const key = (group as HTMLElement).dataset.filter;
+      const activeBtn = group.querySelector(".active") as HTMLElement;
+
+      if (key && activeBtn) {
+        const value = activeBtn.dataset.value;
+        if (value) activeFilters[key] = value;
+      }
+    });
+
+    const filtered = items.filter((item: { [x: string]: any; }) =>
+      Object.entries(activeFilters).every(([key, value]) =>
+        String(item[key]) === String(value)
+      )
+    );
+
+    renderResults(filtered);
+  }
+
+  // 🔥 Manejo visual de botones
+  groups?.forEach(group => {
+    const buttons = group.querySelectorAll(".filter-btn");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        // quitar activo del grupo
+        buttons.forEach(b => {
+          b.classList.remove("active", "border-primary", "bg-primary");
+        });
+
+        // activar el clickeado
+        btn.classList.add("active", "border-primary", "bg-primary");
+
+        applyFilters();
+      });
+    });
+  });
+
+  // 🔥 Aplicar versión por defecto
+  if (!isNaN(category) && groups) {
+    groups.forEach(group => {
+      const key = (group as HTMLElement).dataset.filter;
+
+      if (key === "version") {
+        const btn = group.querySelector(
+          `[data-value="${versionDefault}"]`
+        );
+
+        if (btn) {
+          btn.classList.add("active", "border-primary", "bg-primary");
+        }
+      }
+    });
+  }
+
+  applyFilters();
+</script>
