@@ -13,36 +13,38 @@ const { items, filters } = Astro.props as Props<Record<string, any>>;
   data-items={JSON.stringify(items)}
   data-filters={JSON.stringify(filters)}
 >
-<div class="flex flex-col gap-6">
-  {filters.map((filterKey) => {
-    const values = [...new Set(items.map(item => item[filterKey]))];
+  <div class="flex flex-col gap-6">
+    {
+      filters.map((filterKey) => {
+        const values = [...new Set(items.map((item) => item[filterKey]))];
 
-    return (
-      <div class="flex flex-col gap-2">
-        <h3 class="text-sm font-semibold capitalize">
-          {String(filterKey)}
-        </h3>
+        return (
+          <div class="flex flex-col items-center gap-2">
+            <h3 class="text-lg font-semibold capitalize text-text">
+              {String(filterKey)}
+            </h3>
 
-        <div
-          class="flex gap-2 flex-wrap filter-group"
-          data-filter={String(filterKey)}
-        >
-          {values.map(value => (
-            <button
-              type="button"
-              class="filter-btn px-3 py-1 rounded border border-border bg-secondary text-text transition"
-              data-value={String(value)}
+            <div
+              class="flex gap-2 flex-wrap justify-center filter-group p-4"
+              data-filter={String(filterKey)}
             >
-              {String(value)}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  })}
-</div>
+              {values.map((value) => (
+                <button
+                  type="button"
+                  class="filter-btn px-8 py-2 rounded-xl border border-transparent bg-secondary text-text transition"
+                  data-value={String(value)}
+                >
+                  {String(value)}
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
 
-  <div class="results grid grid-cols-3 gap-4 text-text"></div>
+  <div class="results flex flex-wrap items-center justify-around gap-6 text-text"></div>
 </div>
 <script>
   const params = new URLSearchParams(window.location.search);
@@ -53,49 +55,98 @@ const { items, filters } = Astro.props as Props<Record<string, any>>;
 
   const wrapper = document.getElementById("filterWrapper");
 
-  const items = wrapper
-    ? JSON.parse(wrapper.dataset.items || "[]")
-    : [];
+  const items = wrapper ? JSON.parse(wrapper.dataset.items || "[]") : [];
 
-  const filters = wrapper
-    ? JSON.parse(wrapper.dataset.filters || "[]")
-    : [];
+  const filters = wrapper ? JSON.parse(wrapper.dataset.filters || "[]") : [];
 
   const resultsDiv = wrapper?.querySelector(".results");
   const groups = wrapper?.querySelectorAll(".filter-group");
 
   function renderResults(filtered: any[]) {
-    if (!resultsDiv) return;
+  if (!resultsDiv) return;
 
-    resultsDiv.innerHTML = "";
+  resultsDiv.innerHTML = "";
 
-    if (filtered.length === 0) {
-      resultsDiv.innerHTML = `
-        <div class="col-span-3 text-center py-6">
-          No existe el producto
-        </div>
-      `;
-      return;
-    }
-
-    filtered.forEach((item: { [x: string]: any; }) => {
-      const card = document.createElement("div");
-      card.className = "bg-primary p-4 rounded";
-
-      card.innerHTML = filters
-        .map((key: string | number) => `<p><strong>${key}:</strong> ${item[key]}</p>`)
-        .join("");
-
-      resultsDiv.appendChild(card);
-    });
+  if (filtered.length === 0) {
+    resultsDiv.innerHTML = `
+      <div class="col-span-3 text-center py-6">
+        No existe el producto
+      </div>
+    `;
+    return;
   }
+
+  filtered.forEach((item) => {
+    const card = document.createElement("a");
+
+    card.href = `/equipo/${item.id}`;
+    card.className = `
+      card min-w-60 max-w-60 rounded-lg shadow-lg
+      flex flex-col items-center justify-between
+      bg-primary border border-text/50
+      transition hover:scale-105 hover:shadow-xl
+    `;
+
+    card.innerHTML = `
+      <img 
+        src="${item.image1}" 
+        alt="${item.version}" 
+        class="w-full aspect-square object-cover rounded-t-lg"
+      />
+
+      <div class="info w-full h-full px-3 py-3 flex flex-col justify-between gap-3">
+        
+        <p class="text-text text-lg font-light text-center">
+          iPhone ${item.version} ${item.modelo}
+        </p>
+
+        <div class="w-full flex justify-around text-sm">
+          
+          <div class="w-20 flex flex-col items-center">
+            <img src="/icons/storage.svg" 
+                 class="w-4 h-4 invert-50 mb-1" />
+            <p class="text-text-secondary">
+              ${item.capacidad}
+            </p>
+          </div>
+
+          <div class="w-20 flex flex-col items-center">
+            <img src="/icons/heart.svg" 
+                 class="w-4 h-4 invert-50 mb-1" />
+            <p class="text-text-secondary">
+              ${item.estado}
+            </p>
+          </div>
+
+        </div>
+
+        <div class="flex flex-col items-center gap-1">
+          ${
+            item.precioAntes
+              ? `<p class="text-sm text-text-secondary line-through">
+                   S/. ${item.precioAntes}
+                 </p>`
+              : ""
+          }
+
+          <p class="text-text-feature font-bold text-xl">
+            S/. ${item.precio}
+          </p>
+        </div>
+
+      </div>
+    `;
+
+    resultsDiv.appendChild(card);
+  });
+}
 
   function applyFilters() {
     if (!groups) return;
 
     const activeFilters: Record<string, string> = {};
 
-    groups.forEach(group => {
+    groups.forEach((group) => {
       const key = (group as HTMLElement).dataset.filter;
       const activeBtn = group.querySelector(".active") as HTMLElement;
 
@@ -105,50 +156,62 @@ const { items, filters } = Astro.props as Props<Record<string, any>>;
       }
     });
 
-    const filtered = items.filter((item: { [x: string]: any; }) =>
-      Object.entries(activeFilters).every(([key, value]) =>
-        String(item[key]) === String(value)
-      )
+    const filtered = items.filter((item: { [x: string]: any }) =>
+      Object.entries(activeFilters).every(
+        ([key, value]) => String(item[key]) === String(value),
+      ),
     );
 
     renderResults(filtered);
   }
 
   // 🔥 Manejo visual de botones
-  groups?.forEach(group => {
-    const buttons = group.querySelectorAll(".filter-btn");
+  groups?.forEach((group) => {
+  const buttons = group.querySelectorAll(".filter-btn");
 
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        // quitar activo del grupo
-        buttons.forEach(b => {
-          b.classList.remove("active", "border-primary", "bg-primary");
-        });
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
 
-        // activar el clickeado
-        btn.classList.add("active", "border-primary", "bg-primary");
-
-        applyFilters();
+      // quitar activo del grupo
+      buttons.forEach((b) => {
+        b.classList.remove("active", "border-text-feature");
+        b.classList.add("border-transparent");
       });
+
+      // activar solo el borde
+      btn.classList.add("active", "border-text-feature");
+      btn.classList.remove("border-transparent");
+
+      applyFilters();
     });
   });
+});
 
   // 🔥 Aplicar versión por defecto
   if (!isNaN(category) && groups) {
-    groups.forEach(group => {
-      const key = (group as HTMLElement).dataset.filter;
+  groups.forEach((group) => {
+    const key = (group as HTMLElement).dataset.filter;
 
-      if (key === "version") {
-        const btn = group.querySelector(
-          `[data-value="${versionDefault}"]`
-        );
+    if (key === "version") {
+      const buttons = group.querySelectorAll(".filter-btn");
 
-        if (btn) {
-          btn.classList.add("active", "border-primary", "bg-primary");
-        }
+      // limpiar grupo primero
+      buttons.forEach((b) => {
+        b.classList.remove("active", "border-text-feature");
+        b.classList.add("border-transparent");
+      });
+
+      const btn = group.querySelector(
+        `[data-value="${String(versionDefault)}"]`
+      );
+
+      if (btn) {
+        btn.classList.add("active", "border-text-feature");
+        btn.classList.remove("border-transparent");
       }
-    });
-  }
+    }
+  });
+}
 
   applyFilters();
 </script>
