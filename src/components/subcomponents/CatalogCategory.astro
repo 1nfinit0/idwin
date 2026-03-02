@@ -20,8 +20,8 @@ const productsByCategory = categorias.reduce((acc, version) => {
         {productsByCategory[categoria]
         .filter(item => item.publicar == 'Público')
         .map((item) => (
-          <a href={`/${item.id}`} class="card min-w-60 max-w-60 rounded-lg shadow-lg flex flex-col items-center justify-between bg-primary border-text/50 border">
-            <img src={item.image1} alt={item.version} class="w-full aspect-square object-cover rounded-t-lg"  />
+          <a href={`/iphone/${item.id}`} class="card min-w-60 max-w-60 rounded-lg shadow-lg flex flex-col items-center justify-between bg-primary border-text/50 border">
+            <img src={getFirstImage(item.id)} alt={item.version} class="w-full aspect-square object-cover rounded-t-lg"  />
             <div class="info w-full h-full px-2 flex flex-col items-center justify-between py-2 align-middle gap-2">
               <p class="text-text text-xl font-light">{'iPhone ' +item.version+ ' ' + item.modelo}</p>
               <div class="w-full flex justify-around text-sm">

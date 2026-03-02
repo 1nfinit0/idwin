@@ -1,6 +1,44 @@
 ---
 import "@styles/global.css";
-const { title } = Astro.props;
+interface Props {
+  title: string;
+  back?: string; // Si necesitas botón de volver
+  
+  // Open Graph básicos
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  
+  // Open Graph opcionales
+  siteName?: string;
+  locale?: string;
+  
+  // Twitter Cards (recomendado)
+  twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player';
+  twitterCreator?: string;
+  twitterSite?: string;
+}
+
+const { 
+  title,
+  back = false,
+  
+  // Open Graph
+  description = 'iDwin Store - Tu tienda de confianza para iPhones reacondicionados',
+  image = '/idwin_logo.jpg',
+  url = Astro.url.href,
+  type = 'website',
+  
+  siteName = 'iDwin Store',
+  locale = 'es_ES',
+  
+  // Twitter
+  twitterCard = 'summary_large_image',
+  twitterCreator = '@1nfinit0',
+  twitterSite = '@1nfinit0',
+} = Astro.props;
+
 ---
 
 <html lang="es">

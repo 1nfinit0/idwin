@@ -77,3 +77,27 @@
 .product-row:hover {
   scrollbar-color: #ebebeb transparent;
 }
+
+.spec-card {
+  @apply relative flex flex-col items-center justify-between gap-1 p-4
+  w-40 h-36
+  rounded-2xl
+  bg-secondary backdrop-blur-md
+  border border-white/10
+  transition-all duration-300 ease-in-out
+  hover:bg-white/10 hover:border-white/20
+  hover:scale-[1.02]
+  hover:shadow-lg;
+}
+
+.spec-card img {
+  @apply w-8 h-8 mb-1 filter invert;
+}
+
+.spec-card .label {
+  @apply text-xs text-text-feature uppercase tracking-wide;
+}
+
+.spec-card .value {
+  @apply text-sm font-medium text-text leading-snug text-center;
+}
