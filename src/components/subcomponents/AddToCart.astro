@@ -6,6 +6,8 @@ const code = "00" + Math.random().toString(36).substring(5, 8).toUpperCase();
 
 const phone = "51922917150";
 
+const slug = item.id.replace(/ /g, "%20");
+
 const message = [
   `📦 Pedido:`,
   `> ${code}`,
@@ -17,7 +19,7 @@ const message = [
   `*S/. ${item.precio}*`,
   "",
   "¿Podrían darme más información?",
-  `https://idwin.vercel.app/${item.id}`,
+  `https://idwin.vercel.app/${slug}`,
 ].join("\n");
 
 const whatsappUrl =
