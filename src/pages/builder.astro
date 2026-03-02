@@ -8,7 +8,16 @@ import Slider from '@components/subcomponents/Slider.astro';
 import Filter from '@components/subcomponents/Filter.astro';
 ---
 
-<Layout title={"iDwin - Builder"}>
+<Layout title={`iDwin Store - Tu tienda de confianza para iPhones reacondicionados`}
+  description={`Somos iDwin Store, tu tienda de confianza para iPhones reacondicionados. Ofrecemos dispositivos de alta calidad a precios accesibles, con garantía y soporte técnico. Descubre nuestra selección de iPhones reacondicionados y encuentra el modelo perfecto para ti.`}
+  image={`https://idwin.vercel.app/idwin_logo.jpg`}
+  url={Astro.url.href}
+  type="product"
+  siteName="iDwin Store"
+  locale="es_ES"
+  twitterCard="summary_large_image"
+  twitterCreator="@1nfinit0"
+  twitterSite="@1nfinit0">
   <Header />
   <main class="w-full px-4 bg-primary flex flex-col items-center">
     <div class="w-full max-w-6xl">
