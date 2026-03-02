@@ -8,7 +8,7 @@ const { items, filters } = Astro.props as Props<Record<string, any>>;
 ---
 
 <div
-  class="filter-component w-full flex flex-col gap-4"
+  class="filter-component w-full flex flex-col gap-4 items-center justify-center p-4"
   id="filterWrapper"
   data-items={JSON.stringify(items)}
   data-filters={JSON.stringify(filters)}
@@ -44,7 +44,7 @@ const { items, filters } = Astro.props as Props<Record<string, any>>;
     }
   </div>
 
-  <div class="results flex flex-wrap items-center justify-around gap-6 text-text"></div>
+  <div class="results max-w-6xl flex flex-wrap items-center justify-around gap-6 text-text m-8"></div>
 </div>
 <script>
   const params = new URLSearchParams(window.location.search);
