@@ -504,5 +504,28 @@
     "video3": null,
     "video4": null,
     "publicar": "Público"
+  },
+  {
+    "id": "iPhone13-Pro-1TB-000040",
+    "version": 13,
+    "modelo": "Pro",
+    "capacidad": "1TB",
+    "precio": "2,000.00",
+    "precioAntes": "2,500.00",
+    "CPU": "A15 Bioni",
+    "bateria": "2338 mAh",
+    "pantalla": "Edwin ",
+    "camaraFoto": "14 ~",
+    "camaraVideo": "4k",
+    "estado": "Seminuevo",
+    "image1": "https://oechsle.vteximg.com.br/arquivos/ids/21566506-1000-1000/image-79ece0af120d47cb93a3e202416ced61.jpg?v=638872439828100000",
+    "image2": null,
+    "image3": null,
+    "image4": null,
+    "video1": "https://www.tiktok.com/@footcell_import/video/7583148470631025940?q=iphone%2013&t=1772736340957",
+    "video2": "https://www.tiktok.com/@footcell_import/video/7583148470631025940?q=iphone%2013&t=1772736340957",
+    "video3": "https://www.tiktok.com/@footcell_import/video/7583148470631025940?q=iphone%2013&t=1772736340957",
+    "video4": "https://www.tiktok.com/@footcell_import/video/7583148470631025940?q=iphone%2013&t=1772736340957",
+    "publicar": "Público"
   }
 ]
